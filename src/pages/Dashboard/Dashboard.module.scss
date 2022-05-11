@@ -1,0 +1,200 @@
+@import '../../sass/variables.scss';
+.main{
+
+    background: url("../../image/main_bg.png");
+    background-size: 100% 100%;
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+}
+
+.mainbg {
+    margin-top: 5%;
+    text-align: center;
+}
+.mainbg img {
+    width: 80%;
+}
+
+.navbar{
+    background-color: #18b8cb;
+    margin-bottom: 32px;
+    ul{
+        padding-left: 20px;
+        padding-right: 20px;
+        display:flex;
+        justify-content: space-between;
+        font-size:30px;
+        li{
+            padding: 10px;
+            a{
+                color: #7f7f7f;
+                font-weight: bold;
+            }
+            a:hover{
+                color: white;
+            }
+        }
+        
+    }
+}
+
+
+.effects{
+    text-align: center;
+    display: flex;
+    width: 100%;
+    margin: auto;
+}
+.btn_confirm{
+    display: flex;
+    align-items: center;
+    margin-right:10px;
+    margin-left:10px;
+    button{
+        background-size: 100%, 100%;
+        width: 120px;
+        height: 56px;
+        border-radius: 30px !important;
+    }
+    
+}
+
+.section{
+    padding: 1rem 4rem;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    min-height: 80vh;
+    text-align:center;
+
+    h1{
+        font-family: BadaBoomProBB;
+    }
+    h2{
+        font-family: BadaBoomProBB;
+    }
+}
+
+//.section:first-child{padding: 5rem !important;}
+
+.titleSection{
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.text{
+    line-height: 2rem; text-align: justify;
+    font-size: 18px;
+}
+
+.circleContainer{
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+
+}
+
+
+.circle{
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background-color: #16577B;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    
+}
+
+.arrow{
+    width: 0; 
+  height: 0; 
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #EEA701;
+  margin: 0 1rem;
+}
+
+.circleContainer > *{margin-bottom: 2rem;}
+.arrow:last-child{opacity: 0;}
+
+
+.imgContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+// .imgContainer img{
+//     border-radius: 54px;
+//     border: 15px solid white;
+//     margin-top: 30px;
+// }
+
+.footer{
+    background-color:  $pink_footer_color;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+
+}
+
+.footerAnchor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem 0;
+    font-weight: bold;
+    color: white;
+}
+.telgramIcon{
+    width: 50px;
+    margin-right: .5rem;
+}
+
+a.Home_footerAnchor__fbrn4 {
+    color: white;
+}
+
+a.footerAnchor:active{
+    color: blue;
+}
+
+// mobile
+@media (max-width: 500px) {
+    .section{
+        padding: 1rem 1rem;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .imgContainer img{
+        border-radius: 54px;
+        border: 8px solid white;
+        margin-top: 30px;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .effects{
+        text-align: center;
+        display: block;
+    }
+    .btn_confirm{
+        text-align:center;
+        display: block;
+        margin-top:10px;
+        margin-bottom:10px;
+    }
+}
