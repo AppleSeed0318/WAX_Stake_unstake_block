@@ -1,0 +1,106 @@
+
+
+.Navbar .dropdown {
+    position: absolute;
+    top: 38px;
+    left: -1px;
+    background: #fff;
+    min-width: 200px;
+    padding: 0;
+    color: white;
+    text-align: left;
+    border-radius: 20px;
+    background-color: #0e0e30;
+}
+
+.Navbar .dropdown>p {
+    margin: 0;
+    padding: 0.8rem 0.88rem;
+    /* border-bottom: 1px solid rgb(235, 235, 235); */
+    min-width: 140px;
+}
+
+.Navbar .dropdown>p:hover {
+    color: #fff;
+    background-color: #0062cc;
+}
+
+.Navbar .dropdown>p:last-child {
+    border-bottom: 0 none;
+}
+
+header.css-hip9hq-MuiPaper-root-MuiAppBar-root {
+    background-color: #1a2647;
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px #0e0e30, 0px 1px 10px 0px rgb(0 0 0 / 12%);
+    width: 100%;
+    margin: auto;
+}
+
+div.logo {
+
+    font-weight: bold;
+    font-size: 28px;
+    cursor: pointer;
+    color: #ff9f9f;
+    /* background: linear-gradient(to right, #f73e60 , white 110px, #0014ff 150px);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; */
+}
+
+
+
+svg.css-i4bv87-MuiSvgIcon-root {
+    color: orange;
+}
+
+.Home_NavBar__DWFpF {
+    /* background-color: #ec1654; */
+}
+
+#header .pro-sidebar-inner .pro-sidebar-layout .active span.pro-item-content {
+    font-weight: bold;
+    color: white;
+}
+
+.outside_icon img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.mining_btns{
+    display: inline-flex;
+    text-align: center;
+}
+
+.mine_icon_img{
+    margin-top: 4px;
+    width: 24px;
+    height: 26px;
+}
+
+.mine_percent{
+    margin-top: -4px;
+}
+
+.balance_labels{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    margin-left: 8px;
+}
+
+.logo-main{
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+@media only screen and (max-width: 900px) {
+    .label-blockbunies {
+        display: none;      
+    }
+}

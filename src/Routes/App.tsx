@@ -16,14 +16,14 @@ export const App = () => {
   const [balance, setBalance] = useState("");
   const [nickname, setNickname] = useState("");
 
+  const [walletSession, setWalletSession] = useState(null);
+
   return (
     <>
       <BrowserRouter>
-          <ButtonAppBar userAccount = {Account} balance = {balance} loginFlag = {loginFlag} nickname = {nickname} />
+          <ButtonAppBar setWalletSession = {setWalletSession} Account = {Account} setAccount = {setAccount} balance = {balance} loginFlag = {loginFlag} nickname = {nickname} />
           <Routes>
-            <Route path="/" element={<Dashboard NFTs = {NFTs} Assets = {Assets} Account = {Account}/>} />
-            <Route path="/fighters" element={<Fighters NFTs = {NFTs} Assets = {Assets} Account = {Account}/>} />
-            <Route path="/wallet-manage" element={<WalletManager setNFT = {setNFT} setAssets = {setAssets} userAccount={Account} setAccount = {setAccount} setLogin = {setLogin} setBalance = {setBalance}/>}/>
+            <Route path="/" element={<Dashboard walletSession={walletSession} NFTs = {NFTs} Assets = {Assets} Account = {Account}/>} />
           </Routes>
       </BrowserRouter>
     </>

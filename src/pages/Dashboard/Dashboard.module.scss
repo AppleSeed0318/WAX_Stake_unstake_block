@@ -7,8 +7,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 90%;
-    margin: auto;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 50px;
 }
 
 .mainbg {
@@ -21,15 +22,18 @@
 
 .navbar{
     background-color: #18b8cb;
+    box-shadow: 0px 7px 18px 4px rgb(24 33 56), 0px 4px 5px 0px #0e0e30, 0px 1px 10px 0px rgb(26 38 71);
     margin-bottom: 32px;
     ul{
         padding-left: 20px;
         padding-right: 20px;
         display:flex;
-        justify-content: space-between;
+        justify-content: center;
         font-size:30px;
         li{
             padding: 10px;
+            margin-right: 20px;
+            margin-left: 20px;
             a{
                 color: #7f7f7f;
                 font-weight: bold;
@@ -64,7 +68,8 @@
 }
 
 .section{
-    padding: 1rem 4rem;
+    width: 64%;
+    margin:auto;
     // display: flex;
     // flex-direction: column;
     // justify-content: center;
@@ -73,9 +78,51 @@
 
     h1{
         font-family: BadaBoomProBB;
+        color: #facc15;
+        font-size: 50px;
     }
     h2{
         font-family: BadaBoomProBB;
+        color: #28c0c4;
+        font-size: 40px;
+    }
+    label{
+        color:#28c0c4;
+    }
+}
+
+.crew_nft_group {
+    span{
+        color: #facc15;
+    }
+}
+
+.mining_nft_group {
+    span{
+        color: #facc15;
+    }
+}
+
+.nft_block{
+    width: 100%;
+    border: 3px solid #facc15;
+    border-radius: 8px;   
+    padding: 12px;
+}
+
+.crew_nfts{
+    display: flex;
+    li{
+        margin-right:2px;
+        margin-left:2px;
+    }
+}
+
+.tool_nfts{
+    display: flex;
+    li{
+        margin-right:2px;
+        margin-left:2px;
     }
 }
 
@@ -144,7 +191,7 @@
 .footer{
     background-color:  $pink_footer_color;
     bottom: 0;
-    position: absolute;
+    position: fixed;
     width: 100%;
 
 }

@@ -11,8 +11,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import DropDown from "../DropDown/DropDown";
 
-// import AnchorLink from 'anchor-link';
-// import AnchorLinkBrowserTransport from 'anchor-link-browser-transport';
+import AnchorLink from 'anchor-link';
+import AnchorLinkBrowserTransport from 'anchor-link-browser-transport';
 import { headerLinkData } from "../../config/constant";
 
 
@@ -20,14 +20,22 @@ import * as waxjs from "@waxio/waxjs/dist";
 
 import './navbar.css';
 export interface NFTProps {
-  userAccount: any,
+  setWalletSession: any,
+  Account: any,
+  setAccount: any,
   balance: any,
   loginFlag: any,
   nickname: any,
 }
 
 
-export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname }: NFTProps) {
+// https://waxtestnet.greymass.com
+
+// f16b1833c747c43682f4386fca9cbb327929334a762755ebec17f6f23c9b8a12
+
+export default function ButtonAppBar({ setWalletSession, Account, setAccount, balance, loginFlag, nickname }: NFTProps) {
+
+  let wallet_session:any;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,17 +44,21 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
   const [headerActive, setHeaderActive] = useState(headerLinkData.fighter);
   // const [balance, setBalance] = useState("");
 
-  const collection = "stf.capcom";
+  const collection = "blockbunnies";
   // const [loginFlag, setLogin] = useState(true);
-  const endpoint = "https://wax.greymass.com";
-  // let wallet_userAccount = "";
-  const [wallet_userAccount, setwallet_userAccount] = useState("");
+  const endpoint = "https://waxtestnet.greymass.com";
+  const chainID = "f16b1833c747c43682f4386fca9cbb327929334a762755ebec17f6f23c9b8a12";
+  
   let display_nft = false;
   let loggedIn = false;
   const schema = "soldiers";
   const identifier = 'Crowd'
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const [selectCity, setSelectCity] = useState<string>("");
+
+  let walletType = "Anchor";
+
+
   const cities = () => {
     return ["My Profile", "My Inventory", "My Listings", "My Auctions"];
   };
@@ -65,54 +77,7 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
   const citySelection = (city: string): void => {
     setSelectCity(city);
   };
-  // initialize the browser transport
-  // const transport = new AnchorLinkBrowserTransport();
 
-  // const link = new AnchorLink({
-  //   transport,
-  //   chains: [{
-  //     chainId: '1064487b3cd1a897ce03ae5b6a865651747e2e152090f99c1d19d44e01aea5a4',
-  //     nodeUrl: endpoint,
-  //   }]
-  // })
-  // // the session instance, either restored using link.restoreSession() or created with link.login()
-  // let session;
-
-  // // tries to restore session, called when document is loaded
-  // function restoreSession() {
-  //   link.restoreSession(identifier).then((result) => {
-  //     session = result
-  //     if (session) {
-  //       // didLogin();
-  //     }
-  //   })
-  // }
-
-  // // login and store session if sucessful
-  // function loginAnchor() {
-  //   link.login(identifier).then((result) => {
-  //     session = result.session;
-  //     // if (playfabID != null && playfabID != undefined) {
-  //     //   setIdcode(playfabID);
-  //     // }
-  //     setLogin(false);
-
-  //     // navigate(`/?playfabID=${idCode}`);
-  //     // didLogin()
-  //   })
-  // }
-
-  // // logout and remove session from storage
-  // function logoutAnchor() {
-  //   // document.body.classList.remove('logged-in')
-  //   //session.remove();
-  // }
-
-  // // called when session was restored or created
-  // function didLoginAnchor() {
-  //   // document.getElementById('account-name').textContent = session.auth.actor
-  //   // document.body.classList.add('logged-in')
-  // }
   const wax = new waxjs.WaxJS({
     rpcEndpoint: endpoint
   });
@@ -129,9 +94,9 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
     let isAutoLoginAvailable = await wax.isAutoLoginAvailable();
     if (isAutoLoginAvailable) {
       // wallet_userAccount = wax.userAccount;
-      setwallet_userAccount(wax.userAccount);
+      setAccount(wax.userAccount);
       let pubKeys = wax.pubKeys;
-      let str = 'Player: ' + wallet_userAccount
+      let str = 'Player: ' + Account
       loggedIn = true;
       await main();
     }
@@ -141,17 +106,17 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
   const login = async () => {
     try {
       if (!loggedIn) {
-        let wallet1_userAccount = await wax.login();
-        setwallet_userAccount(wallet1_userAccount);
+        let wallet1_userAccount = await wallet_login();
+        setAccount(wallet1_userAccount);
         let pubKeys = wax.pubKeys;
-        let str = 'Player: ' + wallet_userAccount
+        let str = 'Player: ' + Account
         console.log(str);
         // setAccount(wallet1_userAccount);
         loggedIn = true;
         // setLogin(false);
         await main();
         let isWork = await wax.rpc
-          .get_currency_balance("eosio.token", wallet_userAccount, "wax")
+          .get_currency_balance("eosio.token", Account, "wax")
           .then((res) => {
             console.log("geeg", res[0]);
             // setBalance(res[0]);
@@ -167,10 +132,42 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
     }
   }
 
+  const dapp = "blockbunnies";
+
+  async function wallet_login() {
+    var wallet_Account;
+    const transport = new AnchorLinkBrowserTransport();
+    const anchorLink = new AnchorLink({
+      transport,
+      chains: [{
+        chainId: chainID,
+        nodeUrl: endpoint,
+      }],
+    }); 
+    if (walletType == "Anchor") {
+      var sessionList = await anchorLink.listSessions(dapp);
+      if (sessionList && sessionList.length > 0) {
+        wallet_session = await anchorLink.restoreSession(dapp);
+      } else {
+        wallet_session = (await anchorLink.login(dapp)).session;
+      }
+      wallet_Account = String(wallet_session.auth).split("@")[0];
+      let auth = String(wallet_session.auth).split("@")[1];
+      let anchorAuth = auth;
+    } else {
+      wallet_Account = await wax.login();
+      wallet_session = wax.api;
+      let anchorAuth = "active";
+    }
+    setWalletSession(wallet_session);
+    
+    return wallet_Account;
+  }
+
   const GetAssets = async () => {
     let results = [];
-    var path = "atomicassets/v1/assets?collection_name=" + collection + "&owner=" + wallet_userAccount + "&page=1&limit=1000&order=desc&sort=asset_id";
-    const response = await fetch("https://" + "wax.api.atomicassets.io/" + path, {
+    var path = "atomicassets/v1/assets?collection_name=" + collection + "&owner=" + Account + "&page=1&limit=1000&order=desc&sort=asset_id";
+    const response = await fetch("https://" + "test.wax.api.atomicassets.io/" + path, {
       headers: {
         "Content-Type": "text/plain"
       },
@@ -201,7 +198,7 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
   const logout = async () => {
     loggedIn = false;
     display_nft = false;
-    setwallet_userAccount("");
+    setAccount("");
   }
   const handleHeaderlink = (index: number) => {
     setHeaderActive(index);
@@ -240,7 +237,7 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
   };
 
   const onClickLogin = () => {
-
+    login();
   }
 
   const loginClick = () => {
@@ -271,31 +268,31 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
       <AppBar position="static">
         <Toolbar sx = {{justifyContent: "space-between" }}>
           <Typography className="logo" variant="h6" component="div" >
-            <span onClick={(e) => handleHeaderlink(1)}><img src = "/image/nft-shape-logo.png"/>
-            <svg
-              width="296px" height="61px">
-              <defs>
-                  <filter filterUnits="userSpaceOnUse" id="Filter_0" x="0px" y="0px" width="296px" height="61px"  >
-                  <feOffset in="SourceAlpha" dx="0" dy="10" />
-                  <feGaussianBlur result="blurOut" stdDeviation="0" />
-                  <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
-                  <feComposite operator="atop" in="floodOut" in2="blurOut" />
-                  <feComponentTransfer><feFuncA type="linear" slope="0.35" /></feComponentTransfer>
-                  <feMerge>
-                      <feMergeNode />
-                      <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                  </filter>
+            <div className="logo-main" onClick={(e) => handleHeaderlink(1)}>
+              <img src = "/image/nft-shape-logo.png"/>
+              <svg className="label-blockbunies" width="180px" height="61px">
+                <defs>
+                    <filter filterUnits="userSpaceOnUse" id="Filter_0" x="0px" y="0px" width="296px" height="61px"  >
+                    <feOffset in="SourceAlpha" dx="0" dy="10" />
+                    <feGaussianBlur result="blurOut" stdDeviation="0" />
+                    <feFlood flood-color="rgb(0, 0, 0)" result="floodOut" />
+                    <feComposite operator="atop" in="floodOut" in2="blurOut" />
+                    <feComponentTransfer><feFuncA type="linear" slope="0.35" /></feComponentTransfer>
+                    <feMerge>
+                        <feMergeNode />
+                        <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                    </filter>
 
-              </defs>
-              <g filter="url(#Filter_0)">
-                  <text kerning="auto" font-family="Myriad Pro" fill="rgb(0, 0, 0)" transform="matrix( 0.7781656809352, 0, 0, 0.86023037882758, 0.4594591887532, 46.5756442812758)" font-size="60px"><tspan font-size="60px" font-family="BadaBoomProBB" fill="#2CDADA">BLOCK</tspan><tspan font-size="32px" font-family="BadaBoomProBB" fill="#CCD53F">BUNNIES</tspan></text>
-              </g>
+                </defs>
+                <g filter="url(#Filter_0)">
+                    <text kerning="auto" font-family="Myriad Pro" fill="rgb(0, 0, 0)" transform="matrix( 0.7781656809352, 0, 0, 0.86023037882758, 0.4594591887532, 46.5756442812758)" font-size="60px"><tspan font-size="60px" font-family="BadaBoomProBB" fill="#2CDADA">BLOCK</tspan><tspan font-size="32px" font-family="BadaBoomProBB" fill="#CCD53F">BUNNIES</tspan></text>
+                </g>
               </svg>
-            </span>
+            </div>
           </Typography>
 
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, marginLeft: 3, }}>
+          <Box sx={{ display: { xs: 'flex', md: 'flex' }, marginLeft: 3, }}>
             <div className="mining_btns">
               <div className="relative mining mx-1 px-1 my-1 py-1" style={miningStyle}>
                   <img className = "mine_icon_img" src = "/image/mininghammer.png"/>
@@ -320,7 +317,7 @@ export default function ButtonAppBar({ userAccount, balance, loginFlag, nickname
               onClick={onClickLogin}
               style={loginBtnStyle}
             >
-              Login
+              {Account!=""?Account:"Login"}
           </button>
           </Box>
         </Toolbar>
